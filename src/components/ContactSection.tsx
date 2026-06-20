@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Send, Mail, User, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +58,33 @@ export default function ContactSection() {
     return () => ctx.revert();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          },
+        ]);
+
+      if (error) throw error;
+
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -78,17 +106,12 @@ export default function ContactSection() {
           Open Transmission Channel
         </p>
 
-     <form
-  ref={formRef}
-  action="https://formsubmit.co/djain4642@gmail.com"
-  method="POST"
-  className="relative glass-strong rounded-2xl p-8 md:p-12 opacity-0"
->
-  <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission" />
-  <input type="hidden" name="_captcha" value="false" />
-  <input type="hidden" name="_template" value="table" />
-
-  {/* Hexagonal border corners */}
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="relative glass-strong rounded-2xl p-8 md:p-12 opacity-0"
+        >
+          {/* Hexagonal border corners */}
           <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-electric-blue/40 rounded-tl-2xl" />
           <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-electric-blue/40 rounded-tr-2xl" />
           <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-electric-blue/40 rounded-bl-2xl" />
