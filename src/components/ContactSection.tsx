@@ -78,16 +78,17 @@ export default function ContactSection() {
           Open Transmission Channel
         </p>
 
-      <form
+     <form
   ref={formRef}
   action="https://formsubmit.co/djain4642@gmail.com"
   method="POST"
   className="relative glass-strong rounded-2xl p-8 md:p-12 opacity-0"
 >
-        <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission" />
-<input type="hidden" name="_captcha" value="false" />
-<input type="hidden" name="_template" value="table" />
-          {/* Hexagonal border corners */}
+  <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_template" value="table" />
+
+  {/* Hexagonal border corners */}
           <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-electric-blue/40 rounded-tl-2xl" />
           <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-electric-blue/40 rounded-tr-2xl" />
           <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-electric-blue/40 rounded-bl-2xl" />
